@@ -1,4 +1,12 @@
-# kachaka_ros2_dev
+# Ubuntuデスクトップ＋ROS2にアクセスするためのHTML5 VNCインターフェースを提供するDockerfile
+This Dockerfile is based on <br>
+https://github.com/Tiryoh/docker-ros2-desktop-vnc<br>
+https://github.com/AI-Robot-Book-Humble<br>
+which is released under the Apache-2.0 license.
+
+
+
+
 
 
 
