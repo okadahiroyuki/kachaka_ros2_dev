@@ -116,8 +116,8 @@ RUN apt-get update -q && \
     apt-get install -y ros-${ROS_DISTRO}-${INSTALL_PACKAGE} \
     python3-argcomplete \
     python3-colcon-common-extensions \
-    python3-rosdep python3-vcstool && \
-    ros-${ROS_DISTRO}-rqt-* && \
+    python3-rosdep python3-vcstool  \
+    ros-${ROS_DISTRO}-rqt ros-jazzy-rqt-common-plugins && \
     rosdep init && \
     rm -rf /var/lib/apt/lists/*    
 RUN rosdep update
