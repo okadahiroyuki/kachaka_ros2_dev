@@ -130,5 +130,4 @@ ENTRYPOINT [ "/bin/bash", "-c", "/entrypoint.sh" ]
 
 ENV USER ubuntu
 ENV PASSWD ubuntu
-RUN mkdir /home/ubuntu/.config/mate
-COPY ./assets/backgrounds.xml /home/ubuntu/.config/mate/backgrounds.xml
+
