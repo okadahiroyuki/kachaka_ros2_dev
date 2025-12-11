@@ -28,40 +28,6 @@ chmod 600 "$HOME/.vnc/passwd"
 chown -R "$USER:$USER" "$HOME"
 sed -i "s/password = WebUtil.getConfigVar('password');/password = '$VNC_PASSWORD'/" /usr/lib/novnc/app/ui.js
 
-USER_HOME="/home/ubuntu"
-
-# 壁紙設定スクリプト
-mkdir -p "$USER_HOME/bin"
-cat << 'EOF' > "$USER_HOME/bin/set-wallpaper.sh"
-#!/bin/bash
-
-# セッション立ち上がり待ち（必要に応じて時間を調整）
-sleep 3
-
-gsettings set org.mate.background picture-filename "/usr/share/backgrounds/volvo-240-4.jpg"
-gsettings set org.mate.background picture-options "zoom"
-EOF
-
-chown ubuntu:ubuntu "$USER_HOME/bin/set-wallpaper.sh"
-chmod +x "$USER_HOME/bin/set-wallpaper.sh"
-
-# autostart 設定
-AUTOSTART_DIR="$USER_HOME/.config/autostart"
-mkdir -p "$AUTOSTART_DIR"
-
-cat << 'EOF' > "$AUTOSTART_DIR/set-wallpaper.desktop"
-[Desktop Entry]
-Type=Application
-Version=1.0
-Name=Set Wallpaper
-Exec=/home/ubuntu/bin/set-wallpaper.sh
-X-MATE-Autostart-enabled=true
-NoDisplay=false
-EOF
-
-chown -R ubuntu:ubuntu "$USER_HOME/.config"
-
-
 # xstartup
 XSTARTUP_PATH="$HOME/.vnc/xstartup"
 cat << EOF > "$XSTARTUP_PATH"

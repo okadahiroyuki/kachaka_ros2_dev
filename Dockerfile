@@ -125,6 +125,7 @@ RUN apt-get update -q && \
 # Enable apt-get completion after running `apt-get update` in the container
 RUN rm /etc/apt/apt.conf.d/docker-clean
 
+COPY ./assets/volvo-240-4.jpg /usr/share/backgrounds/volvo-240-4.jpg
 COPY ./assets/entrypoint.sh /
 ENTRYPOINT [ "/bin/bash", "-c", "/entrypoint.sh" ]
 
