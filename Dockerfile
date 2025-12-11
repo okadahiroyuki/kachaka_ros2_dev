@@ -16,12 +16,10 @@
 # which is released under the Apache-2.0 license.
 #
 FROM ubuntu:noble-20251013
-ENV DEBIAN_FRONTEND noninteractive
-LABEL maintainer="Hiroyuki Okada<okdhryk@gmail.com>"
-SHELL ["/bin/bash", "-c"]
 
 # Automatic platform ARGs in the global scope
-# https://docs.docker.com/reference/dockerfile/#automatic-platform-args-in-the-global-scope
+# https://docs.docker.com/reference/dockerfile/
+#automatic-platform-args-in-the-global-scope
 ARG TARGETPLATFORM
 ARG TARGETARCH
 
@@ -29,6 +27,10 @@ ARG TARGETARCH
 # amd64 is unaffected as it does not use QEMU.
 # This environment variable is only declared at build time.
 ARG QEMU_CPU
+
+LABEL maintainer="Hiroyuki Okada<okdhryk@gmail.com>"
+
+SHELL ["/bin/bash", "-c"]
 
 # Upgrade OS
 RUN apt-get update -q && \
@@ -51,15 +53,11 @@ RUN apt-get update && \
         tigervnc-standalone-server tigervnc-common \
         supervisor wget curl gosu git sudo python3-full python3-pip tini \
         build-essential vim sudo lsb-release locales \
-        bash-completion tzdata terminator \
-        dos2unix \
-        apt-utils \
-        nvtop \
-        language-pack-ja fonts-takao fcitx-mozc dbus-x11 && \
+        bash-completion tzdata terminator && \
     apt-get autoclean && \
     apt-get autoremove && \
     rm -rf /var/lib/apt/lists/*
-    
+
 # noVNC and Websockify
 RUN git clone https://github.com/AtsushiSaito/noVNC.git -b add_clipboard_support /usr/lib/novnc
 RUN pip install --no-cache-dir --break-system-packages git+https://github.com/novnc/websockify.git@v0.10.0
@@ -99,10 +97,6 @@ RUN wget https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg
     apt-get autoremove && \
     rm -rf /var/lib/apt/lists/*
 
-RUN gosu ubuntu bash -c 'echo "export DONT_PROMPT_WSL_INSTALL=1" >> /home/ubuntu/.bashrc' && \
-    gosu ubuntu bash -c 'DONT_PROMPT_WSL_INSTALL=1 codium --install-extension ms-ceintl.vscode-language-pack-ja' && \
-    gosu ubuntu bash -c 'DONT_PROMPT_WSL_INSTALL=1 codium --install-extension ms-python.python'
-    
 # Install ROS
 ENV ROS_DISTRO jazzy
 # desktop or ros-base
@@ -116,10 +110,10 @@ RUN apt-get update -q && \
     apt-get install -y ros-${ROS_DISTRO}-${INSTALL_PACKAGE} \
     python3-argcomplete \
     python3-colcon-common-extensions \
-    python3-rosdep python3-vcstool  \
-    ros-${ROS_DISTRO}-rqt ros-jazzy-rqt-common-plugins && \
+    python3-rosdep python3-vcstool && \
     rosdep init && \
-    rm -rf /var/lib/apt/lists/*    
+    rm -rf /var/lib/apt/lists/*
+
 RUN rosdep update
 
 # Install simulation packages
@@ -131,10 +125,8 @@ RUN apt-get update -q && \
 # Enable apt-get completion after running `apt-get update` in the container
 RUN rm /etc/apt/apt.conf.d/docker-clean
 
-
 COPY ./entrypoint.sh /
 ENTRYPOINT [ "/bin/bash", "-c", "/entrypoint.sh" ]
 
-USER ubuntu
-WORKDIR /home/ubuntu
-
+ENV USER ubuntu
+ENV PASSWD ubuntu
