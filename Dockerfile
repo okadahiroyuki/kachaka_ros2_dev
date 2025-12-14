@@ -117,7 +117,7 @@ RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
 # Enable apt-get completion after running `apt-get update` in the container
 RUN rm /etc/apt/apt.conf.d/docker-clean
 
-COPY ./entrypoint.sh /
+COPY ./assets/entrypoint.sh /
 RUN dos2unix /entrypoint.sh
 ENTRYPOINT [ "/bin/bash", "-c", "/entrypoint.sh" ]
 
