@@ -67,11 +67,11 @@ docker buildx build --platform=linux/arm64 --progress=plain -t okadahiroyuki/ros
 
 ### Dockerコンテナの起動
 ```
-docker run -p 6080:80 --security-opt seccomp=unconfined --shm-size=512m okadahiroyuki/ros2-desktop-vnc:jazzy-arm64
+docker run --net=host --security-opt seccomp=unconfined --shm-size=512m okadahiroyuki/ros2-desktop-vnc:jazzy-arm64
 ```
 ホストPCのディレクトリをマウントする場合は下記のように-vオプションを指定する
 ```
-docker run -p 6080:80 -v ./ros2_ws:/home/ubuntu/ros2_ws --security-opt seccomp=unconfined --shm-size=512m okadahiroyuki/ros2-desktop-vnc:jazzy-arm64
+docker run --net=host -v ./ros2_ws:/home/ubuntu/ros2_ws --security-opt seccomp=unconfined --shm-size=512m okadahiroyuki/ros2-desktop-vnc:jazzy-arm64
 ```
 
 ### 動作確認
